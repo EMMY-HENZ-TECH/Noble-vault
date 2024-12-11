@@ -5,12 +5,11 @@ const passwordInput = document.getElementById('password-input');
 const passwordSubmit = document.getElementById('password-submit');
 const passwordError = document.getElementById('password-error');
 
-// Check if password is stored in localStorage
-if (localStorage.getItem("passwordEntered") === "true") {
+// Check if password is stored in sessionStorage
+if (sessionStorage.getItem("passwordEntered") === "true") {
   passwordScreen.style.display = "none"; // Skip password screen
   mainContent.style.display = "block"; // Show main content
 } else {
-  // Show password screen by default
   passwordScreen.style.display = "flex";
   mainContent.style.display = "none";
 }
@@ -20,7 +19,7 @@ passwordSubmit.addEventListener("click", () => {
   const enteredPassword = passwordInput.value;
 
   if (enteredPassword === correctPassword) {
-    localStorage.setItem("passwordEntered", "true"); // Store password state
+    sessionStorage.setItem("passwordEntered", "true"); // Store password state in sessionStorage
     passwordScreen.style.display = "none"; // Hide password screen
     mainContent.style.display = "block"; // Show main content
   } else {
@@ -33,3 +32,11 @@ window.history.pushState(null, null, window.location.href);
 window.onpopstate = function () {
   window.history.pushState(null, null, window.location.href);
 };
+
+// Prevent page reload or close without password
+window.addEventListener("beforeunload", function (event) {
+  if (!sessionStorage.getItem("passwordEntered")) {
+    event.preventDefault();
+    event.returnValue = ""; // Shows a confirmation dialog
+  }
+});
