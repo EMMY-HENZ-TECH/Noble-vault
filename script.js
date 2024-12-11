@@ -1,30 +1,36 @@
-const password = "NobleClan£";
-const lockScreen = document.getElementById("lock-screen");
-const mainContent = document.getElementById("main-content");
-const passwordInput = document.getElementById("password-input");
-const submitButton = document.getElementById("submit-password");
-const errorMessage = document.getElementById("error-message");
-
-// Check lock state in local storage
-if (localStorage.getItem("locked") === "true") {
-  lockScreen.style.display = "block";
-  mainContent.style.display = "none";
-} else {
-  lockScreen.style.display = "none";
-  mainContent.style.display = "block";
-}
-
-// Handle password submission
-submitButton.addEventListener("click", () => {
-  if (passwordInput.value === password) {
-    localStorage.setItem("locked", "false");
-    lockScreen.style.display = "none";
-    mainContent.style.display = "block";
+window.onload = function() {
+  // If password is already entered, skip password prompt
+  if (localStorage.getItem("passwordEntered") === "true") {
+    document.getElementById("password-screen").style.display = "none";
+    document.getElementById("main-content").style.display = "block";
   } else {
-    errorMessage.style.display = "block";
-    navigator.vibrate(200); // Vibrate on incorrect password (optional)
+    document.getElementById("password-screen").style.display = "block";
+    document.getElementById("main-content").style.display = "none";
   }
-});
 
-// Lock again when visiting
-localStorage.setItem("locked", "true");
+  document.getElementById("password-submit").addEventListener("click", function() {
+    const passwordInput = document.getElementById("password-input").value;
+    const correctPassword = "NobleClan£"; // Your password
+
+    if (passwordInput === correctPassword) {
+      localStorage.setItem("passwordEntered", "true"); // Store password entry in localStorage
+      document.getElementById("password-screen").style.display = "none";
+      document.getElementById("main-content").style.display = "block";
+    } else {
+      document.getElementById("password-error").style.display = "block";
+    }
+  });
+
+  // Prevent navigation if password is not entered
+  window.onbeforeunload = function() {
+    if (localStorage.getItem("passwordEntered") !== "true") {
+      return "You need to enter the correct password to exit.";
+    }
+  };
+
+  // Disable back button and prevent navigation (for mobile & browser behavior)
+  history.pushState(null, null, location.href);
+  window.onpopstate = function () {
+    history.pushState(null, null, location.href);
+  };
+    }
