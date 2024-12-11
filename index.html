@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Warning - Noble Clan</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Lock Screen -->
+  <div id="lock-screen">
+    <h1>Warning from Noble Clan</h1>
+    <p>This is your final warning! Do not mess with Noble Clan.</p>
+    <p>To exit, use the password displayed below:</p>
+    <h2>Password: <span>NobleClan£</span></h2>
+    <div class="password-box">
+      <input type="password" id="password-input" placeholder="Enter Password">
+      <button id="submit-password">Submit</button>
+    </div>
+    <p id="error-message" style="display: none;">Incorrect password. Try again!</p>
+  </div>
+
+  <!-- Main Content (hidden until password is correct) -->
+  <div id="main-content" style="display: none;">
+    <h1>Welcome Back</h1>
+    <p>Let this serve as a reminder not to mess with Noble Clan.</p>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+  </html>
